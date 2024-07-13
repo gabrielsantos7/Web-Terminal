@@ -4,6 +4,7 @@ export interface IUsernameProps {
 
 export interface ICommand {
   text: string;
-  current?: boolean;
   timestamp: string;
+  current?: boolean;
+  handleClick?: () => void;
 }

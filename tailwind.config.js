@@ -6,14 +6,15 @@ export default {
       colors: {
         'main-purple': '#300924',
         'main-green': '#83c445',
-        'main-blue': '#4b5897'
+        'main-blue': '#4b5897',
+        'main-yellow': '#dbd492',
       },
       fontFamily: {
-        'sans': ['Source Code Pro', 'sans-serif'],
+        sans: ['Source Code Pro', 'sans-serif'],
       },
       animation: {
-        'blink': 'pulse 1s infinite alternate;'
-      }
+        blink: 'pulse 1s infinite alternate;',
+      },
     },
   },
   plugins: [],

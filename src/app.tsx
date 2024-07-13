@@ -1,5 +1,6 @@
 import { ChangeEvent, KeyboardEvent, useRef, useState } from 'react';
 import { Command } from './components/command';
+import { Banner } from './components/banner';
 import { getCurrentTime } from './helper';
 import { ICommand } from './models';
 
@@ -45,15 +46,18 @@ export function App() {
         autoFocus
       />
 
-      <div
-        className="w-full min-h-screen bg-main-purple p-4 text-lg font-semibold text-neutral-50"
-        onClick={textareaFocus}
-      >
+      <div className="w-full min-h-screen bg-main-purple p-4 text-lg font-semibold text-neutral-50">
+        <Banner />
         {commands.map((command) => (
           <Command text={command.text} timestamp={command.timestamp} />
         ))}
 
-        <Command text={inputText} timestamp={currentTime} current />
+        <Command
+          text={inputText}
+          timestamp={currentTime}
+          current
+          handleClick={textareaFocus}
+        />
       </div>
     </>
   );
