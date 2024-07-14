@@ -1,6 +1,10 @@
-import { getCommandDescription } from "./services/get-command-description";
+import { Banner } from './components/banner';
+import { Crash } from './components/crash';
+import { ProjectInfo } from './components/project-info';
+import { getCommandDescription } from './services/get-command-description';
 
-type CommandDictionary = { [key: string]: string };
+type BasicCommands = { [key: string]: string };
+type SpecialCommands = { [key: string]: JSX.Element };
 
 export function getCurrentTime(): string {
   const now = new Date();
@@ -10,24 +14,24 @@ export function getCurrentTime(): string {
   return `${hours}:${minutes}`;
 }
 
+const specialCommands: SpecialCommands = {
+  banner: Banner(),
+  project: ProjectInfo(),
+  'sudo rm -rf': Crash(),
+};
+
+const basicCommands: BasicCommands = {
+  ls: 'List directory contents.',
+  pwd: 'Print working directory.',
+};
+
 export function generateIAPrompt(command: string): string {
-  return `Please, provide a brief description (no more than 20 words) of the '${command}' command and its purpose. Examples of expected responses include: For 'ls': List contents of the current directory. For 'cd': Change to a specific directory. - For 'pwd': Print the current working directory, etc. If the command is not recognized, respond with: Command Not Found. For a list of basic commands, type 'help'. Note: Responses should reflect operations typical to a Linux terminal environment.`;
+  return `Please, provide a brief description (no more than 20 words) of the '${command}' command and its purpose. Examples of expected responses include: For 'ls': List contents of the current directory. For 'cd': Change to a specific directory. - For 'pwd': Print the current working directory, etc. If the command is not recognized, respond with: Command Not Found." Note: Responses should reflect operations typical to a Linux terminal environment.`;
 }
 
-export async function processCommand(command: string): Promise<string> {
-  const basicCommands: CommandDictionary = {
-    ls: "List directory contents.",
-    pwd: "Print working directory.",
-  };
-  const specialCommands: CommandDictionary = {
-    help: "Display available commands.",
-    exit: "Exit the terminal.",
-    banner: 'Display Banner',
-    clear: 'Clear the terminal screen.',
-    time: 'Display current time.',
-    history: 'Display command history.',
-  };
-
+export async function processCommand(
+  command: string,
+): Promise<string | JSX.Element> {
   if (basicCommands.hasOwnProperty(command)) {
     return basicCommands[command];
   }
@@ -40,8 +44,7 @@ export async function processCommand(command: string): Promise<string> {
     const response = await getCommandDescription(command);
     return response.text;
   } catch (error) {
-    console.error('Error processing command:', error);
-    return 'Command Not Found. For a list of available commands, type "help".';
+    console.error(error);
+    return 'An error ocurred. Try again later.';
   }
 }
-

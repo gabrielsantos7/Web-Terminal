@@ -9,6 +9,7 @@ export function Command({
   handleClick,
   response,
 }: ICommand) {
+
   return (
     <>
       <div className="flex justify-start items-center" onClick={handleClick}>
@@ -16,13 +17,18 @@ export function Command({
         <p>{text}</p>
         {current && <Typer />}
       </div>
-      <p
-        className={`pb-4 ${
-          response?.includes('Command Not Found.') && 'text-red-600'
-        }`}
-      >
-        {response}
-      </p>
+      {typeof response === 'string' ? (
+        <p
+          className={`pb-4 ${
+            response?.includes('Command Not Found.') ||
+            (response?.includes('An error ocurred.') && 'text-red-600')
+          }`}
+        >
+          {response}
+        </p>
+      ) : (
+        response
+      )}
     </>
   );
 }

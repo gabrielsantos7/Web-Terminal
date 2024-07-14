@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@keyframes fadeToBlack {
+  from {
+    background-color: transparent;
+  }
+  to {
+    background-color: black;
+  }
+}
+
+.crashed-screen {
+  animation: fadeToBlack 1s steps(1) forwards; /* Duração de 2 segundos */
+}
