@@ -11,7 +11,7 @@ export function getCurrentTime(): string {
 }
 
 export function generateIAPrompt(command: string): string {
-  return `Please, provide a brief description (no more than 20 words) of the '${command}' command and its purpose. Examples of expected responses include: For 'ls': List contents of the current directory. For 'cd': Change to a specific directory. - For 'pwd': Print the current working directory, etc. If the command is not recognized, respond with: Command Not Found. For a list of available commands, type 'help'. Note: Responses should reflect operations typical to a Linux terminal environment.`;
+  return `Please, provide a brief description (no more than 20 words) of the '${command}' command and its purpose. Examples of expected responses include: For 'ls': List contents of the current directory. For 'cd': Change to a specific directory. - For 'pwd': Print the current working directory, etc. If the command is not recognized, respond with: Command Not Found. For a list of basic commands, type 'help'. Note: Responses should reflect operations typical to a Linux terminal environment.`;
 }
 
 export async function processCommand(command: string): Promise<string> {

@@ -3,9 +3,10 @@ export interface IUsernameProps {
 }
 
 export interface ICommand {
+  id?: number;
   text: string;
   timestamp: string;
   current?: boolean;
+  response?: string;
   handleClick?: () => void;
-  response?: string
 }

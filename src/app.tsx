@@ -19,6 +19,7 @@ export function App() {
     if (event.key === 'Enter') {
       const response = await processCommand(inputText);
       const currentCommand = {
+        id: new Date().getTime(),
         text: inputText,
         timestamp: currentTime,
         response,
@@ -51,6 +52,7 @@ export function App() {
         <Banner />
         {commands.map((command) => (
           <Command
+            key={command.id}
             text={command.text}
             timestamp={command.timestamp}
             response={command.response}
