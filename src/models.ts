@@ -7,4 +7,5 @@ export interface ICommand {
   timestamp: string;
   current?: boolean;
   handleClick?: () => void;
+  response?: string
 }

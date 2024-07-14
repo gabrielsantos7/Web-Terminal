@@ -1,11 +1,12 @@
 import { ChangeEvent, KeyboardEvent, useRef, useState } from 'react';
 import { Command } from './components/command';
 import { Banner } from './components/banner';
-import { getCurrentTime } from './helper';
+import { getCurrentTime, processCommand } from './helper';
 import { ICommand } from './models';
 
 export function App() {
   const [inputText, setInputText] = useState('');
+  const [response, setResponse] = useState('');
   const [commands, setCommands] = useState<ICommand[]>([]);
   const [currentTime, setCurrentTime] = useState(getCurrentTime());
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -17,12 +18,15 @@ export function App() {
     text.length <= 50 && setInputText(text);
   };
 
-  const handleKeyPress = (event: KeyboardEvent<HTMLTextAreaElement>) => {
+  const handleKeyPress = async (event: KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === 'Enter') {
+      const response = await processCommand(inputText);
       const currentCommand = {
         text: inputText,
         timestamp: currentTime,
+        response,
       };
+
       setCommands([...commands, currentCommand]);
       setInputText('');
       setCurrentTime(getCurrentTime());
@@ -49,7 +53,11 @@ export function App() {
       <div className="w-full min-h-screen bg-main-purple p-4 text-lg font-semibold text-neutral-50">
         <Banner />
         {commands.map((command) => (
-          <Command text={command.text} timestamp={command.timestamp} />
+          <Command
+            text={command.text}
+            timestamp={command.timestamp}
+            response={command.response}
+          />
         ))}
 
         <Command
