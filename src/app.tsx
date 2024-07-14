@@ -6,12 +6,9 @@ import { ICommand } from './models';
 
 export function App() {
   const [inputText, setInputText] = useState('');
-  const [response, setResponse] = useState('');
   const [commands, setCommands] = useState<ICommand[]>([]);
   const [currentTime, setCurrentTime] = useState(getCurrentTime());
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
-
-  console.log(import.meta.env.VITE_API_TOKEN);
 
   const handleInputChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const text = event.target.value;
