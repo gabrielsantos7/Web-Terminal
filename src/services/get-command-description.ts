@@ -1,8 +1,9 @@
-import { generateIAPrompt } from '../helper';
+import { generateIAPrompt } from '../helpers';
+import { Mode } from '../models';
 import axios from './axios';
 
-export async function getCommandDescription(command: string) {
-  const prompt = generateIAPrompt(command)
+export async function getCommandDescription(command: string, mode: Mode) {
+  const prompt = generateIAPrompt(command, mode)
   try {
     const response = await axios.post('/', {
       prompt,

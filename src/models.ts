@@ -9,3 +9,5 @@ export interface ICommand {
   response?: string | JSX.Element
   handleClick?: () => void;
 }
+
+export type Mode = 'command' | 'action';

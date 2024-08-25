@@ -3,7 +3,7 @@ const generateRandowSpacing = () => Math.floor(Math.random() * 30) + 5;
 
 export function Crash() {
   return (
-    <div className="crashed-screen absolute inset-0 z-50">
+    <div className="crashed-screen fixed inset-0 z-50">
       {Array.from({ length: 20 }, (_, index) => (
         <div
           key={index}
