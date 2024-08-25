@@ -14,3 +14,7 @@
 .crashed-screen {
   animation: fadeToBlack 1s steps(1) forwards; /* Duração de 2 segundos */
 }
+
+code {
+  @apply text-teal-400 pr-2
+}

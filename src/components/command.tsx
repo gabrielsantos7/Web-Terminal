@@ -1,3 +1,4 @@
+import ReactMarkdown from 'react-markdown';
 import { Username } from './username';
 import { Typer } from './typer';
 import { ICommand } from '../models';
@@ -9,25 +10,28 @@ export function Command({
   handleClick,
   response,
 }: ICommand) {
-
   return (
     <>
       <div className="flex justify-start items-center" onClick={handleClick}>
         <Username timestamp={timestamp} />
-        <p>{text}</p>
+        <ReactMarkdown>{text}</ReactMarkdown>
         {current && <Typer />}
       </div>
-      {typeof response === 'string' ? (
-        <p
+      {response && (
+        <div
           className={`pb-4 ${
-            response?.includes('Command Not Found.') ||
-            (response?.includes('An error ocurred.') && 'text-red-600')
+            typeof response === 'string' &&
+            (response.includes('Command Not Found.') || response.includes('An error occurred.'))
+              ? 'text-red-600'
+              : ''
           }`}
         >
-          {response}
-        </p>
-      ) : (
-        response
+          {typeof response === 'string' ? (
+            <ReactMarkdown>{response}</ReactMarkdown>
+          ) : (
+            response // Renderiza o JSX diretamente
+          )}
+        </div>
       )}
     </>
   );

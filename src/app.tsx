@@ -27,7 +27,7 @@ export function App() {
   const handleKeyPress = async (event: KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key !== 'Enter') return;
 
-    let response = '';
+    let response: string | JSX.Element = '';
 
     if (inputText === 'clear') {
       setInputText('');
@@ -37,7 +37,7 @@ export function App() {
       const newMode = inputText.split(' ')[1];
       response = handleModeChange(newMode);
     } else {
-      response = await processCommand(inputText, mode) as string;
+      response = await processCommand(inputText, mode);
     }
 
     const currentCommand: ICommand = {

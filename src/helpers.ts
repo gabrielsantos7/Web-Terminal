@@ -29,7 +29,8 @@ const basicCommands: BasicCommands = {
 export function generateIAPrompt(input: string, mode: Mode): string {
   return mode === 'command'
     ? `Please, provide a brief description (no more than 20 words) of the '${input}' command and its purpose. Examples of expected responses include: For 'ls': List contents of the current directory. For 'cd': Change to a specific directory. For 'pwd': Print the current working directory, etc. If the command is not recognized, respond with: Command Not Found. Note: Responses should reflect operations typical to a Linux terminal environment.`
-    : `Please, provide the Linux command(s) that would be used to accomplish the following task: '${input}'. For example, if the task is 'list all files', the response should be 'ls -a'.`;
+    : `Please provide the exact Linux command(s) required to accomplish the following specific task: '${input}'. Ensure that the task is related to standard Linux operations (e.g., file management, system monitoring) and avoid vague or abstract requests. For example, if the task is 'list all files', the response should be 'ls -a'. If the task is not relevant or does not correspond to a specific command, respond with 'Invalid task description. Please specify a clear and actionable task.'
+`;
 }
 
 export async function processCommand(
