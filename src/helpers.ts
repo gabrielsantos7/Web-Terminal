@@ -1,5 +1,6 @@
 import { Banner } from './components/banner';
 import { Crash } from './components/crash';
+import { Help } from './components/help';
 import { ProjectInfo } from './components/project-info';
 import { Mode } from './models';
 import { getCommandDescription } from './services/get-command-description';
@@ -16,6 +17,7 @@ export function getCurrentTime(): string {
 }
 
 const specialCommands: SpecialCommands = {
+  help: Help(),
   banner: Banner(),
   project: ProjectInfo(),
   'sudo rm -rf': Crash(),

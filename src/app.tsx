@@ -2,13 +2,14 @@ import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
 import { Command } from './components/command';
 import { Banner } from './components/banner';
 import { getCurrentTime, processCommand } from './helpers';
-import { ICommand, Mode } from './models';
+import { ICommand, Mode, Response } from './models';
 
 export function App() {
   const [inputText, setInputText] = useState('');
   const [commands, setCommands] = useState<ICommand[]>([]);
   const [currentTime, setCurrentTime] = useState(getCurrentTime());
   const [mode, setMode] = useState<Mode>('command');
+
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleInputChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
@@ -27,12 +28,20 @@ export function App() {
   const handleKeyPress = async (event: KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key !== 'Enter') return;
 
-    let response: string | JSX.Element = '';
+    let response: Response = '';
 
     if (inputText === 'clear') {
       setInputText('');
       setCommands([]);
       return;
+    } else if (inputText === 'history') {
+      response = (
+        <div>
+          {commands.filter((command) => command.text !== 'history').map((command) => (
+            <p>{command.text}</p>
+          ))}
+        </div>
+      );
     } else if (inputText.startsWith('mode ')) {
       const newMode = inputText.split(' ')[1];
       response = handleModeChange(newMode);
@@ -66,7 +75,8 @@ export function App() {
     <>
       <div className="w-full min-h-screen bg-main-purple p-4 text-lg font-semibold text-neutral-50">
         <p className="text-main-yellow">
-          Web Terminal project © {new Date().getFullYear()}. All rights reserved.
+          Web Terminal project © {new Date().getFullYear()}. All rights
+          reserved.
         </p>
         <Banner />
         <div className="pb-4 text-main-yellow">
@@ -85,7 +95,7 @@ export function App() {
             response={command.response}
           />
         ))}
-
+        {/* TODO: Move cursor in arrow press */}
         <Command
           text={inputText}
           timestamp={currentTime}
