@@ -1,30 +1,19 @@
-# React + TypeScript + Vite
+# 🐧 Linux Interactive Web Terminal
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 🎬 Video Demo
 
-Currently, two official plugins are available:
+[Click here](https://google.com) to watch the video
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📃 Description
 
-## Expanding the ESLint configuration
+O Linux Interactive Web Terminal é um de meus projetos mais criativos e sofisticados. Não poderia entregar menos como projeto final para um curso de excelência tão notória como o CS50x. Em resumo, trata-se de uma aplicação que busca simular um terminal Linux na web, com a paleta de cores inspirada nos terminais da distribuição Ubuntu.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+O usuário consegue interagir com o terminal através de dois modos diferentes: O primeiro, que vem por padrão, é o modo command, onde ele deve informar comandos reais que usaria em um terminal comum. A aplicação então analisará se o comando é válido, e caso seja, retornará uma breve descrição do que aquele comando faz. No segundo modo (action), o usuário informa a ação que deseja executar, explicando o que ele gostaria que fosse feito, e o terminal exibirá um comando correspondente ao que foi solicitado pelo usuário.
 
-- Configure the top-level `parserOptions` property like this:
+Tudo isso é possível graças ao uso da API do Google Gemini, que permite integrar o serviço de inteligência artificial à nossa aplicação. Para isso, foi construído um backend com Node e Express, que recebe um prompt, encaminha-o para essa API e retorna a resposta gerada pela IA. A infraestrutura é relativamente simples, pois seu objetivo é simplesmente intermerdiar a comunicação entre o serviço de IA e a interface de usuário, limitando o tamanho do prompt e o número de requisições que o servidor aceita por usuário em um intervalo de tempo.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+No desenvolvimento do frontend, foi utilizada uma das bibliotecas mais populares e modernas do mercado, o **React**. Essa biblioteca facilita a construção de interfaces de usuário interativas e dinâmicas. Para potencializar a produtividade e a segurança do código, o projeto foi implementado em **TypeScript**, uma linguagem que expande as funcionalidades do JavaScript, fornecendo tipagem estática e outras funcionalidades avançadas. Na parte de estilização, optei pelo uso do **Tailwind CSS**, uma biblioteca de classes utilitárias que permite construir interfaces visualmente agradáveis de forma rápida e eficiente. 
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+Para a estruturação de pastas e arquivos do projeto, optei pelo padrão mais usado pela comunidade, em que todo o código fonte é armazenado dentro da pasta src. Ela é subdivida entre duas outras pastas: components, que armazena os componentes React da aplicação, e services, que é responsável pela camada de requisições HTTP para o servidor, enviando o prompt do usuário e retornando a resposta gerada. Optei pelo uso da biblioteca Axios, que torna mais fácil o processo de envio de requisições e tratamento de erros e respostas.
+
+Dentro da pasta src, existem outros arquivos importantes. app.tsx e main.tsx são arquivos definidos pelo próprio React. Podemos dizer que o componente App é o componente principal da aplicação, que gerencia toda a lógica de funcionamento do terminal e seus respectivos estados que o fazem funcionar. Ele é renderizado no arquivo main.tsx, que o define sendo o componente raíz da aplicação. Os arquivos helpers.ts e models.ts representam, respectivamente, funções utilitárias que auxiliarão no funcionamento geral da aplicação, e definição de interfaces, que descrevem as propriedades de elementos da aplicação.

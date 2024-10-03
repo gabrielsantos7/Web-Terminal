@@ -1,5 +1,7 @@
 export type Mode = 'command' | 'action';
+
 export type Response = string | JSX.Element;
+
 export interface IUsernameProps {
   timestamp: string;
 }
