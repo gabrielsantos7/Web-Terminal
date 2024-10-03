@@ -57,8 +57,6 @@ export function App() {
     } else if (normalizedInput === 'toggle mode') {
       const newMode = mode === 'action' ? 'command' : 'action';
       response = handleModeChange(newMode);
-    } else if (normalizedInput.includes('rm -rf')) {
-      alert(1);
     } else {
       response = await processCommand(normalizedInput, mode);
     }
