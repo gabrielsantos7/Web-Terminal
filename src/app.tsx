@@ -9,44 +9,58 @@ export function App() {
   const [commands, setCommands] = useState<ICommand[]>([]);
   const [currentTime, setCurrentTime] = useState(getCurrentTime());
   const [mode, setMode] = useState<Mode>('command');
+  const [isLoading, setIsLoading] = useState(false);
+  const [showBanner, setShowBanner] = useState(true);
 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleInputChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const text = event.target.value;
-    text.length <= 60 && setInputText(text);
+    setInputText(text);
   };
 
   const handleModeChange = (newMode: string) => {
-    if (newMode !== 'command' && newMode !== 'action') {
-      return `Invalid mode: '${newMode}'. Available modes are 'command' and 'action'.`;
-    }
     setMode(newMode as Mode);
     return `Mode changed to: ${newMode}`;
+  };
+
+  const normalizeInput = (input: string) => {
+    return input.trim().toLowerCase();
   };
 
   const handleKeyPress = async (event: KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key !== 'Enter') return;
 
+    const normalizedInput = normalizeInput(inputText);
+    if (normalizedInput === '') return;
+
+    setIsLoading(true);
+
     let response: Response = '';
 
-    if (inputText === 'clear') {
+    if (normalizedInput === 'clear') {
       setInputText('');
       setCommands([]);
+      setShowBanner(false);
+      setIsLoading(false);
       return;
-    } else if (inputText === 'history') {
+    } else if (normalizedInput === 'history') {
       response = (
         <div>
-          {commands.filter((command) => command.text !== 'history').map((command) => (
-            <p>{command.text}</p>
-          ))}
+          {commands
+            .filter((command) => command.text !== 'history')
+            .map((command, index) => (
+              <p key={index}>{command.text}</p>
+            ))}
         </div>
       );
-    } else if (inputText.startsWith('mode ')) {
-      const newMode = inputText.split(' ')[1];
+    } else if (normalizedInput === 'toggle mode') {
+      const newMode = mode === 'action' ? 'command' : 'action';
       response = handleModeChange(newMode);
+    } else if (normalizedInput.includes('rm -rf')) {
+      alert(1);
     } else {
-      response = await processCommand(inputText, mode);
+      response = await processCommand(normalizedInput, mode);
     }
 
     const currentCommand: ICommand = {
@@ -58,6 +72,7 @@ export function App() {
     setCommands([...commands, currentCommand]);
     setInputText('');
     setCurrentTime(getCurrentTime());
+    setIsLoading(false);
   };
 
   const textareaFocus = () => {
@@ -68,24 +83,27 @@ export function App() {
 
   useEffect(() => {
     window.scrollTo({ behavior: 'smooth', top: document.body.offsetHeight });
-    textAreaRef.current;
   }, [commands]);
 
   return (
     <>
       <div className="w-full min-h-screen bg-main-purple p-4 text-lg font-semibold text-neutral-50">
-        <p className="text-main-yellow">
-          Web Terminal project © {new Date().getFullYear()}. All rights
-          reserved.
-        </p>
-        <Banner />
-        <div className="pb-4 text-main-yellow">
-          <p>Welcome to Linux Interactive Web Terminal.</p>
-          <p>
-            For a list of available commands, type{' '}
-            <span className="text-main-green">'help'</span>.
-          </p>
-        </div>
+        {showBanner && (
+          <>
+            <p className="text-main-yellow">
+              Web Terminal project © {new Date().getFullYear()}. All rights
+              reserved.
+            </p>
+            <Banner />
+            <div className="pb-4 text-main-yellow">
+              <p>Welcome to Linux Interactive Web Terminal.</p>
+              <p>
+                For a list of available commands, type{' '}
+                <span className="text-main-green">'help'</span>.
+              </p>
+            </div>
+          </>
+        )}
 
         {commands.map((command, index) => (
           <Command
@@ -95,13 +113,15 @@ export function App() {
             response={command.response}
           />
         ))}
-        {/* TODO: Move cursor in arrow press */}
+
         <Command
           text={inputText}
           timestamp={currentTime}
           current
           handleClick={textareaFocus}
         />
+
+        {isLoading && <p>Loading...</p>}
       </div>
 
       <textarea

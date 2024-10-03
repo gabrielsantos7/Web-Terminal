@@ -15,7 +15,7 @@ export function Command({
       <div className="flex justify-start items-center" onClick={handleClick}>
         <Username timestamp={timestamp} />
         <ReactMarkdown>{text}</ReactMarkdown>
-        {current && <Typer />}
+        {current && <Typer />} 
       </div>
       {response && (
         <div
@@ -29,7 +29,7 @@ export function Command({
           {typeof response === 'string' ? (
             <ReactMarkdown>{response}</ReactMarkdown>
           ) : (
-            response // Renderiza o JSX diretamente
+            response
           )}
         </div>
       )}
